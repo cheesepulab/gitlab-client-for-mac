@@ -5,6 +5,8 @@ A native macOS client for GitLab servers whose web UI you can't reach, but whose
 ![macOS 14+](https://img.shields.io/badge/macOS-14%2B-blue)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 
+> **Not an official GitLab product.** GitLab Client is an independent open-source project. It isn't affiliated with, endorsed by or supported by GitLab Inc. It only talks to GitLab servers through their public REST API and git over SSH. GitLab is a trademark of GitLab Inc.
+
 ## Features
 
 - **Domain first.** Add your GitLab domain; the app checks that its API, SSH and HTTPS certificate answer before it asks for a token.
