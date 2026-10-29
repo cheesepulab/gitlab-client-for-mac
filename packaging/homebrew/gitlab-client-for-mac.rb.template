@@ -1,0 +1,37 @@
+cask "@CASK_TOKEN@" do
+  version "@VERSION@"
+  sha256 "@SHA256@"
+
+  url "https://github.com/@REPO_OWNER@/@REPO_NAME@/releases/download/v#{version}/@ZIP_PREFIX@-#{version}.zip"
+  name "@APP_NAME@"
+  desc "Native client for GitLab servers whose web UI you can't reach"
+  homepage "https://github.com/@REPO_OWNER@/@REPO_NAME@"
+
+  depends_on macos: :sonoma
+
+  app "@APP_NAME@.app"
+
+  # The app is not notarized by Apple, so clear the download quarantine flag.
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args:         ["-dr", "com.apple.quarantine", "{{appdir}}/@APP_NAME@.app"],
+        must_succeed: false
+  end
+
+  uninstall quit: "@BUNDLE_ID@"
+
+  zap trash: [
+    "~/Library/Application Support/GitLabClient",
+    "~/Library/Caches/GitLabClient",
+    "~/Library/Preferences/@BUNDLE_ID@.plist",
+  ]
+
+  caveats <<~EOS
+    @APP_NAME@ is not notarized by Apple, so this cask removes the
+    download quarantine flag after installing it.
+
+    Your GitLab tokens are kept in the macOS Keychain and are not removed by
+    `brew uninstall --zap`. Sign out or revoke them in Settings → Domains first,
+    or delete the "@BUNDLE_ID@" items in Keychain Access.
+  EOS
+end
